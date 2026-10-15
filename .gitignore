@@ -1,5 +1,6 @@
 # sliced files / archives
 *.gcode
+!sim/tests/*.gcode
 *.zip
 # manual and Klipper SAVE_CONFIG backups
 *.bak*
