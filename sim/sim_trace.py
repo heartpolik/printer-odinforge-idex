@@ -64,6 +64,12 @@ class SimTrace:
         self.wrap_fans()
         self.last_state = self.snapshot()
         self.emit('ready', state=self.last_state)
+        dump = os.environ.get('SIM_CONFIG_DUMP')
+        if dump:
+            # Final merged config (after includes, overrides and SAVE_CONFIG block)
+            cfg = self.printer.lookup_object('configfile').get_status(None)['config']
+            with open(dump, 'w') as f:
+                json.dump(cfg, f, indent=1, sort_keys=True)
 
     def wrap_heater(self, name, heater):
         orig = heater.set_temp

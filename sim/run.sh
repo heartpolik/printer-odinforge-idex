@@ -6,6 +6,7 @@ set -euo pipefail
 
 SIM="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(dirname "$SIM")"
+SRC="${SIM_SRC:-$REPO}"   # config tree to stage (config_diff.sh points this at an exported git ref)
 CACHE="$SIM/.cache"
 STAGE="$CACHE/home"
 CFG="$STAGE/printer_data/config"
@@ -21,8 +22,8 @@ cp "$SIM/sim_trace.py" "$CACHE/klipper/klippy/extras/sim_trace.py"
 # state written by klipper (save_variables etc.) never leaks between tests. rsync --delete instead of
 # rm -rf: recreating a bind-mounted dir confuses docker's file sharing.
 stage() {
-  rsync -a --delete --exclude .git --exclude sim --exclude klippain_config --exclude 'config/' \
-    --exclude 'macros/' --exclude 'moonraker/' --exclude 'scripts/' "$REPO/" "$CFG/"
+  rsync -a --delete --exclude .git --exclude /sim --exclude /klippain_config --exclude '/config/' \
+    --exclude '/macros/' --exclude '/moonraker/' --exclude '/scripts/' "$SRC/" "$CFG/"
   echo "[include /sim/sim.cfg]" >> "$CFG/printer.cfg"
 }
 
@@ -39,6 +40,7 @@ for t in "${tests[@]}"; do
     -v "$STAGE:/home/biqu" -v "$CACHE/klipper:/home/biqu/klipper" \
     -v "$REPO/klippain_config:/home/biqu/klippain_config:ro" \
     -v "$SIM:/sim:ro" -v "$LOGS:/logs" -v "$t:/test.gcode:ro" -e HOME=/home/biqu -e "SIM_TRACE=/logs/$name.log.trace" \
+    -e "SIM_CONFIG_DUMP=/logs/$name.config.json" \
     -w /home/biqu/klipper odinforge-sim \
     timeout 120 python klippy/klippy.py /home/biqu/printer_data/config/printer.cfg \
       -i /test.gcode -o /tmp/mcu.serial -l "/logs/$name.log" \
