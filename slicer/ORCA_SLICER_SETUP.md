@@ -38,7 +38,7 @@
 ### Прогрів другого сопла (IDEX-специфічне доповнення, 2026-07-23)
 
 Другий тулхед (T1/Munin) прогрівається НЕ через параметр START_PRINT, а через окрему
-змінну `extruder_temp1` на overridden `_MODULE_EXTRUDER_HEATING` (доданo в `overrides.cfg`,
+змінну `extruder_temp1` на overridden `_MODULE_EXTRUDER_HEATING` (доданo в `odin/macros/start_print.cfg`,
 не чіпає framework-файл). Start g-code встановлює її ПЕРЕД викликом START_PRINT:
 
 ```
@@ -53,19 +53,21 @@ SET_GCODE_VARIABLE MACRO=_MODULE_EXTRUDER_HEATING VARIABLE=extruder_temp1 VALUE=
 
 ## Послідовність дій START_PRINT
 
-Послідовність дій визначається змінною `startprint_actions` в `overrides.cfg`:
+Послідовність дій визначається змінною `startprint_actions` в `odin/variables.cfg`:
 
-1. `bed_soak` - прогрівання столу
-2. `extruder_preheating` - попереднє нагрівання екструдерів до безпечної температури
-3. `chamber_soak` - прогрівання камери (якщо налаштовано)
-4. `tilt_calib` - калібрування нахилу (QGL/Z_TILT)
-5. `extruder_heating` - нагрівання екструдерів до температури друку
-6. `purge` - очищення сопла
-7. `clean` - очищення сопла щіткою
-8. `z_offset` - калібрування Z offset
-9. `bedmesh` - вимірювання bed mesh
-10. `set_mode` - встановлення режиму IDEX (primary/mirror/copy)
-11. `pre_print_purge` - невеликий purge перед початком друку
+1. `idex_reset` - скидання стану попереднього друку: T0 активний, без офсету T1 (odin/macros/idex.cfg)
+2. `bed_soak` - прогрівання столу
+3. `extruder_preheating` - попереднє нагрівання активного (T0) сопла до безпечної температури
+4. `chamber_soak` - прогрівання камери (якщо налаштовано)
+5. `tilt_calib` - Z_TILT
+6. `extruder_heating` - нагрів сопла INITIAL_TOOL до температури друку, другого сопла до `extruder_temp1`
+   (або вимкнення, якщо воно не використовується) - odin/macros/start_print.cfg
+7. `z_offset` - калібрування Z offset
+8. `bedmesh` - вимірювання bed mesh (на T0, probe тільки на ньому)
+9. `idex_initial_tool` - перемикання на INITIAL_TOOL
+10. `primeline` - лінія прочистки
+
+`purge` і `clean` тимчасово вимкнені (див. коментар у odin/variables.cfg).
 
 ## Важливі зауваження
 
