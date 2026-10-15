@@ -1,6 +1,6 @@
 {
   "active_printer_id": "default",
-  "config_version": 19,
+  "config_version": 23,
   "dark_mode": true,
   "display": {
     "bed_mesh_render_mode": 0,
@@ -32,12 +32,6 @@
     "touch_device": ""
   },
   "language": "ru",
-  "led": {
-    "auto_state": {
-      "enabled": null
-    },
-    "selected_strips": null
-  },
   "log_path": "/tmp/helixscreen.log",
   "motion": {
     "jog_mode": 1
@@ -105,18 +99,16 @@
         "hotend": "heater_fan hugin_hotend_fan",
         "part": "fan_generic munin_part_fan"
       },
-      "filament_sensors": {
-        "sensors": null
-      },
+      "filament_sensors": {},
       "hardware": {
         "expected": [],
         "last_snapshot": {
           "fans": [
             "temperature_fan rpi_fan",
-            "heater_fan munin_hotend_fan",
-            "fan_generic munin_part_fan",
             "fan_generic hugin_part_fan",
             "heater_fan hugin_hotend_fan",
+            "fan_generic munin_part_fan",
+            "heater_fan munin_hotend_fan",
             "controller_fan drivers_fan",
             "temperature_fan PSU_fan"
           ],
@@ -136,11 +128,11 @@
             "temperature_fan rpi_fan",
             "temperature_sensor Raspberry_Pi",
             "temperature_sensor mcu",
-            "temperature_sensor munin_mcu_temp",
             "temperature_sensor hugin_mcu_temp",
+            "temperature_sensor munin_mcu_temp",
             "temperature_fan PSU_fan"
           ],
-          "timestamp": "2026-10-14T08:17:45Z"
+          "timestamp": "2026-10-15T10:25:12Z"
         },
         "optional": []
       },
@@ -149,9 +141,10 @@
         "hotend": "extruder"
       },
       "leds": {
-        "auto_state": {
-          "mappings": null
-        },
+        "auto_paired_bases": [
+          "SET_NOZZLE_LEDS"
+        ],
+        "auto_state": {},
         "color_presets": [
           "#FFFFFF",
           "#FFD700",
@@ -166,7 +159,16 @@
         "last_color": "#FFFFFF",
         "last_white": 0.0,
         "led_on_at_start": false,
-        "macro_devices": [],
+        "macro_devices": [
+          {
+            "name": "Set Nozzle Leds",
+            "off_macro": "SET_NOZZLE_LEDS_OFF",
+            "on_macro": "SET_NOZZLE_LEDS_ON",
+            "presets": [],
+            "toggle_macro": "",
+            "type": "on_off"
+          }
+        ],
         "selected": [],
         "selected_strips": [
           "neopixel status_leds"
@@ -178,9 +180,7 @@
       "moonraker_host": "127.0.0.1",
       "moonraker_port": 7125,
       "printer_name": "Odin Forge",
-      "probe_sensors": {
-        "sensors": null
-      },
+      "probe_sensors": {},
       "temp_sensors": {
         "bed": "heater_bed",
         "hotend": "extruder"
