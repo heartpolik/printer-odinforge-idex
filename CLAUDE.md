@@ -40,6 +40,8 @@ IDEX carriage/extruder state, heater targets and waits, fan requests, gcode offs
 - `sim/setup.sh` — mirror printer's ~/klipper (+ third-party extras) and klippain_config, build image.
   Re-run after updating Klipper/Klippain on the printer.
 - `sim/run.sh [sim/tests/x.gcode ...]` — run scenarios (default: all). `SIM_DEPTH=n` limits macro nesting shown.
+- `sim/setup_next.sh [ref]` — upgrade dry run: builds upstream Klipper + firmware dicts, then
+  `SIM_KLIPPER=klipper-next SIM_DICTS=sim/.cache/dicts-next sim/run.sh`. Run before every Klipper update.
 - `sim/config_diff.sh [ref]` — compare the final merged config (after includes/overrides) of a git ref (default
   HEAD) with the working tree. Pure refactors/moves must report "config identical".
 - Test commands (sim/sim_trace.py): `ASSERT EXPR="<jinja>" [MSG=]`, `SIM_NOTE MSG=`, `SIM_STATE`, `SIM_WAIT SECONDS=`.

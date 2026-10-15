@@ -57,6 +57,14 @@ for e in events:
         errors.append(e['msg'])
         print(paint('error', '%s  !! %s' % (ind, e['msg'])))
 
+# Every test line must have run (a crash mid-test leaves no '!!' but stops the trace)
+expected = [l.strip() for l in open(test) if l.strip() and not l.strip().startswith(';')]
+ran = [e for e in events if e['kind'] == 'cmd' and e.get('depth', 0) == 0]
+with open(log) as f:
+    logtext = f.read()
+crash = next((m for m in ('Internal error on command', 'Unhandled exception', 'Transition to shutdown state')
+              if m in logtext), None)
+
 if not ready:
     print(paint('fail', 'Klipper did not reach ready (config error?). Log tail:'))
     with open(log) as f:
@@ -65,5 +73,10 @@ if not ready:
     sys.exit(1)
 if errors:
     print(paint('fail', 'FAIL: %s' % errors[0]))
+    sys.exit(1)
+if crash or len(ran) < len(expected):
+    print(paint('fail', 'FAIL: ran %d/%d test lines%s. Log tail:' % (
+        len(ran), len(expected), ', klippy log has "%s"' % crash if crash else '')))
+    print('\n'.join('  ' + l for l in logtext.splitlines()[-15:]))
     sys.exit(1)
 print(paint('assert', 'PASS (%d asserts)' % asserts))
