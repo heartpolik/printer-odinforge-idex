@@ -132,7 +132,7 @@
             "temperature_sensor munin_mcu_temp",
             "temperature_fan PSU_fan"
           ],
-          "timestamp": "2026-10-15T10:25:12Z"
+          "timestamp": "2026-10-15T10:35:49Z"
         },
         "optional": []
       },
