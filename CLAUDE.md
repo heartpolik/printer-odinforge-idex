@@ -16,3 +16,7 @@ Local clone of `~/printer_data/config` on the printer (BTT CB1, Klippain, IDEX w
 ## Layout
 - `config`, `macros`, `moonraker`, `scripts` are symlinks into `~/klippain_config` on the printer (Klippain
   upstream, not tracked here); they dangle locally. User overrides go in `overrides.cfg`.
+- `klippain_config/` (gitignored) is a read-only mirror of `~/klippain_config` for reference. Refresh with
+  `rsync -a --delete odinforge:klippain_config/ klippain_config/`. Don't edit it — changes go in `overrides.cfg`.
+- Known local patch in Klippain: `config/software/input_shaper.cfg` has its shaper values removed so SAVE_CONFIG
+  can own them in printer.cfg. A Klippain update (`git pull` there) would conflict with/revert it.
