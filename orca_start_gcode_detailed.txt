@@ -1,0 +1,37 @@
+; ============================================================
+; Стартовий G-code для Orca Slicer
+; IDEX принтер з двома інструментами (T0 - Hugin, T1 - Munin)
+; Probe тільки на T0
+; ============================================================
+
+; ------------------------------------------------------------
+; Матеріал
+; ------------------------------------------------------------
+{if filament_type[0] == "PLA"}{local material = "PLA"}{elsif filament_type[0] == "ABS"}{local material = "ABS"}{elsif filament_type[0] == "TPU"}{local material = "TPU"}{else}{local material = "PETG"}{endif}
+
+; ------------------------------------------------------------
+; Температура початкового інструменту (той, що реально почне друк)
+; ------------------------------------------------------------
+{if initial_tool == 0}{local extruder_temp_initial = first_layer_temperature[0]}{else}{local extruder_temp_initial = first_layer_temperature[1]}{endif}
+
+; ------------------------------------------------------------
+; Прогрів другого сопла заздалегідь (0 = вимкнено, якщо тулхед не використовується)
+; щоб T0<->T1 перемикання під час друку не чекало на нагрів
+; ------------------------------------------------------------
+{if is_extruder_used[1]}{local extruder_temp1 = first_layer_temperature[1]}{else}{local extruder_temp1 = 0}{endif}
+SET_GCODE_VARIABLE MACRO=_MODULE_EXTRUDER_HEATING VARIABLE=extruder_temp1 VALUE={extruder_temp1}
+
+; ------------------------------------------------------------
+; Site-defaults (не з слайсера - можна тюнити тут вручну)
+; ------------------------------------------------------------
+{local soak_time = 0}
+{local chamber_temp = 0}
+{local chamber_maxtime = 15}
+{local bed_mesh_profile = ""}
+
+; ------------------------------------------------------------
+; Викликаємо START_PRINT (справжні параметри stock макросу,
+; EXTRUDER_TEMP0/1 та IS_EXTRUDER0/1_USED тут НЕ приймаються -
+; другий тулхед прогрівається окремо через SET_GCODE_VARIABLE вище)
+; ------------------------------------------------------------
+START_PRINT BED_TEMP={first_layer_bed_temperature[0]} EXTRUDER_TEMP={extruder_temp_initial} INITIAL_TOOL={initial_tool} MATERIAL="{material}" SIZE="{first_layer_print_min[0]}_{first_layer_print_min[1]}_{first_layer_print_max[0]}_{first_layer_print_max[1]}" TOTAL_LAYER={total_layer_count} SOAK={soak_time} CHAMBER={chamber_temp} CHAMBER_MAXTIME={chamber_maxtime} MESH="{bed_mesh_profile}"

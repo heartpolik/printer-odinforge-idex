@@ -1,0 +1,203 @@
+{
+  "active_printer_id": "default",
+  "config_version": 19,
+  "dark_mode": true,
+  "display": {
+    "bed_mesh_render_mode": 0,
+    "dim_brightness": 30,
+    "dim_sec": 600,
+    "drm_device": "",
+    "gcode_render_mode": 0,
+    "gpu_3d_blocked": false,
+    "gpu_blur_blocked": false,
+    "sleep_sec": 0
+  },
+  "gcode_viewer": {
+    "shading_model": "phong",
+    "tube_sides": 4
+  },
+  "input": {
+    "calibration": {
+      "a": -0.7491788864135742,
+      "b": 0.002243050606921315,
+      "c": 337.030517578125,
+      "d": -0.011135144159197807,
+      "e": 1.6647039651870728,
+      "f": -12.901704788208008,
+      "valid": true
+    },
+    "jitter_threshold": 5,
+    "scroll_limit": 10,
+    "scroll_throw": 25,
+    "touch_device": ""
+  },
+  "language": "ru",
+  "led": {
+    "auto_state": {
+      "enabled": null
+    },
+    "selected_strips": null
+  },
+  "log_path": "/tmp/helixscreen.log",
+  "motion": {
+    "jog_mode": 1
+  },
+  "print_start_history": {
+    "entries": [
+      {
+        "phases": {
+          "2": 29,
+          "6": 76,
+          "7": 49,
+          "9": 3
+        },
+        "temp_bucket": 2,
+        "timestamp": 1784553211,
+        "total": 227
+      },
+      {
+        "phases": {
+          "2": 98,
+          "6": 116
+        },
+        "temp_bucket": 2,
+        "timestamp": 1784575892,
+        "total": 215
+      },
+      {
+        "phases": {
+          "2": 18,
+          "6": 134,
+          "7": 27,
+          "9": 202
+        },
+        "temp_bucket": 1,
+        "timestamp": 1784818828,
+        "total": 590
+      }
+    ]
+  },
+  "printers": {
+    "default": {
+      "default_macros": {
+        "cooldown": "SET_HEATER_TEMPERATURE HEATER=extruder TARGET=0\nSET_HEATER_TEMPERATURE HEATER=heater_bed TARGET=0",
+        "load_filament": {
+          "gcode": "LOAD_FILAMENT",
+          "label": "Load"
+        },
+        "macro_1": {
+          "gcode": "HELIX_CLEAN_NOZZLE",
+          "label": "Clean Nozzle"
+        },
+        "macro_2": {
+          "gcode": "HELIX_BED_MESH_IF_NEEDED",
+          "label": "Bed Level"
+        },
+        "unload_filament": {
+          "gcode": "UNLOAD_FILAMENT",
+          "label": "Unload"
+        }
+      },
+      "extra_sensors": {},
+      "fans": {
+        "chamber": "",
+        "exhaust": "",
+        "hotend": "heater_fan hugin_hotend_fan",
+        "part": "fan_generic munin_part_fan"
+      },
+      "filament_sensors": {
+        "sensors": null
+      },
+      "hardware": {
+        "expected": [],
+        "last_snapshot": {
+          "fans": [
+            "temperature_fan rpi_fan",
+            "heater_fan munin_hotend_fan",
+            "fan_generic munin_part_fan",
+            "fan_generic hugin_part_fan",
+            "heater_fan hugin_hotend_fan",
+            "controller_fan drivers_fan",
+            "temperature_fan PSU_fan"
+          ],
+          "filament_sensors": [
+            "filament_switch_sensor runout_sensor"
+          ],
+          "heaters": [
+            "heater_bed",
+            "extruder",
+            "extruder1"
+          ],
+          "leds": [
+            "neopixel status_leds",
+            "neopixel munin_leds"
+          ],
+          "sensors": [
+            "temperature_fan rpi_fan",
+            "temperature_sensor Raspberry_Pi",
+            "temperature_sensor mcu",
+            "temperature_sensor munin_mcu_temp",
+            "temperature_sensor hugin_mcu_temp",
+            "temperature_fan PSU_fan"
+          ],
+          "timestamp": "2026-10-14T08:17:45Z"
+        },
+        "optional": []
+      },
+      "heaters": {
+        "bed": "heater_bed",
+        "hotend": "extruder"
+      },
+      "leds": {
+        "auto_state": {
+          "mappings": null
+        },
+        "color_presets": [
+          "#FFFFFF",
+          "#FFD700",
+          "#FF6B35",
+          "#4FC3F7",
+          "#FF4444",
+          "#66BB6A",
+          "#9C27B0",
+          "#00BCD4"
+        ],
+        "last_brightness": 100,
+        "last_color": "#FFFFFF",
+        "last_white": 0.0,
+        "led_on_at_start": false,
+        "macro_devices": [],
+        "selected": [],
+        "selected_strips": [
+          "neopixel status_leds"
+        ],
+        "startup_brightness": 80,
+        "strip": ""
+      },
+      "moonraker_api_key": false,
+      "moonraker_host": "127.0.0.1",
+      "moonraker_port": 7125,
+      "printer_name": "Odin Forge",
+      "probe_sensors": {
+        "sensors": null
+      },
+      "temp_sensors": {
+        "bed": "heater_bed",
+        "hotend": "extruder"
+      },
+      "type": "Odin Forge (Custom Klipper)"
+    },
+    "show_printer_switcher": false
+  },
+  "telemetry_enabled": false,
+  "theme": {
+    "preset": 0
+  },
+  "thermal": {
+    "rates": {
+      "heater_bed": {
+        "heat_rate": 5.274614334106445
+      }
+    }
+  }
+}

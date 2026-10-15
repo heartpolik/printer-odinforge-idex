@@ -1,0 +1,6 @@
+; Кінцевий G-code для Orca Slicer
+; IDEX принтер з двома інструментами
+
+; Викликаємо END_PRINT макрос
+END_PRINT
+

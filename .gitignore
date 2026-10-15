@@ -1,0 +1,8 @@
+# sliced files / archives
+*.gcode
+*.zip
+# manual and Klipper SAVE_CONFIG backups
+*.bak*
+*.bkp
+printer-[0-9]*.cfg
+*.cfg-old
