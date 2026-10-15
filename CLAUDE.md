@@ -33,9 +33,19 @@ Local clone of `~/printer_data/config` on the printer (BTT CB1, Klippain, IDEX w
 - Known local patch in Klippain: `config/software/input_shaper.cfg` has its shaper values removed so SAVE_CONFIG
   can own them in printer.cfg. A Klippain update (`git pull` there) would conflict with/revert it.
 
+## Firmware (firmware/)
+All three boards run Klipper flashed through Katapult (EBBs over CAN, Manta over USB after a bootloader request).
+`firmware/manta_m8p_h723.config` (H723, 25MHz, Katapult 128KiB -> 0x8020000, USB-to-CAN bridge PD0/PD1, 1M) and
+`firmware/ebb36_g0b1.config` (G0B1, Katapult 8KiB -> 0x8002000, CAN PB0/PB1, 1M) are the menuconfigs. Build on the
+printer with `make KCONFIG_CONFIG=<cfg> OUT=/tmp/fw_x/`, then with klipper stopped:
+EBBs `flashtool.py -i can0 -u <uuid> -f klipper.bin` (hugin 62171040ce8f, munin 7517e0819073); Manta
+`flashtool.py -i can0 -u 08ef01076113 -r`, then `flashtool.py -d /dev/serial/by-id/usb-katapult_stm32h723xx_* -f ...`.
+flashtool prints a harmless ValueError about a USB serial "btt-ebb36-12-t1" - check for "Programming Complete".
+After reflashing, copy the new klipper.dict files into sim/dicts.
+
 ## Simulator (sim/) — test logic before pushing
 Klipper batch mode in docker (OrbStack) with the real config, real MCU dictionaries (H723 + 2x G0B1, built
-from the flashed firmware commit 0844388d7) and a trace harness. No hardware, no physics: checks macro logic,
+from the flashed firmware commit 9cb99754c) and a trace harness. No hardware, no physics: checks macro logic,
 IDEX carriage/extruder state, heater targets and waits, fan requests, gcode offsets, and errors.
 - `sim/setup.sh` — mirror printer's ~/klipper (+ third-party extras) and klippain_config, build image.
   Re-run after updating Klipper/Klippain on the printer.
