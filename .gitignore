@@ -6,3 +6,6 @@
 *.bkp
 printer-[0-9]*.cfg
 *.cfg-old
+
+# read-only mirror of ~/klippain_config (rsync from printer)
+/klippain_config/
